@@ -1,0 +1,43 @@
+<html>
+<head>
+  <script type="text/javascript">
+    function magic() {
+      var value_a = document.getElementById("input_a").value;
+      var value_b = document.getElementById("input_b").value;
+      var output = document.getElementById("output");
+
+      var values_a = clear(value_a);
+      var values_b = clear(value_b);
+
+      console.log(values_a, values_b);
+
+      var output_url = "https://www.warcraftlogs.com/reports/compare/" + values_a[0] + "/" + values_b[0] + "#fight=" + values_a[1] + "," + values_b[1] + "&source=" + values_a[2] + "," + values_b[2];
+      output.value = output_url;
+
+      output.select();
+      document.execCommand("copy");
+      
+      window.open(output_url, "_blank");
+    }
+
+    function clear(value) {
+      var value = value.slice(37);
+      var url = value.split("#")[0];
+      var value = value.split("#")[1];
+      var props_array = value.split("&");
+      var props = new Object();
+
+      props_array.forEach(function(prop) {
+        key = prop.split("=")[0];
+        value = prop.split("=")[1];
+
+        props[key] = value;
+      });
+
+      return [url, props.fight, props.source];
+    }
+  </script>
+<body>
+  <input type="text" id="input_a"><input type="text" id="input_b"><button onclick="magic()">DO IT</button><input type="text" id="output">
+</body>
+</html>
